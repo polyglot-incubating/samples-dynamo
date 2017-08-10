@@ -1,0 +1,54 @@
+server:
+  port: ${port:8080}
+
+spring:
+  profiles:
+    active:  default
+  session:
+    store-type: hash-map
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: SIMPLES
+
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
+
+amazon:
+  aws:
+    accesskey: access
+    secretkey: secret 
+  dynamodb:
+    endpoint: http://localhost:8300/
+    
+
+logging:
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+  level:
+    root: info
+    org.springframework: info
+    org.springframework.security: debug
+    org.chiwooplatform: debug
+
+---
+spring:
+  profiles: dev
+
+server:
+  port: ${port:8081}}
+
+amazon:
+  aws:
+    accesskey: local
+    secretkey: yyy    
+  dynamodb:
+    endpoint: http://localhost:8000/
+
+logging:
+  config: classpath:logback-dev.xml
+
