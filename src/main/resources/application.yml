@@ -6,11 +6,6 @@ spring:
     active:  default
   session:
     store-type: hash-map
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: SIMPLES
 
   devtools:
     restart:

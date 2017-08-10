@@ -1,18 +1,8 @@
 [[overview]]
 
-## NoSQL 장점  
-- 클라우드 환경에 적합 하다.
-    * 오픈소스
-    * 하드웨어 확장에 유연하게 대처 할 수 있다.
-    * 저 비용으로 병렬처리가 가능 하다.
+## DynamoDB Local 다운로드
+http://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/developerguide/DynamoDBLocal.html
 
-- 유연한 데이터 모델 이다.
-    * 비정형 데이터 구조 설계는 
-    * Join 구조를 Embedded 와 Linking 으로 구현
-
-- Big Data 처리에 효과적
-    * 메모리 매핑 기능을 통해 Read/Write 가 빠름
-    * RDB 와 동일하게 데이터 처리가 가능
 
 ## DynamoDB 주요 특징  
   * AWS NoSQL 솔루션
