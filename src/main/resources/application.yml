@@ -16,7 +16,7 @@ spring:
 amazon:
   aws:
     accesskey: access
-    secretkey: secret 
+    secretkey:
   dynamodb:
     endpoint: http://localhost:8300/
     
@@ -40,9 +40,9 @@ server:
 amazon:
   aws:
     accesskey: local
-    secretkey: yyy    
+    secretkey:
   dynamodb:
-    endpoint: http://localhost:8000/
+    endpoint: http://localhost:8300/
 
 logging:
   config: classpath:logback-dev.xml

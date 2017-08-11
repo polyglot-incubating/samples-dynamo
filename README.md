@@ -14,13 +14,14 @@ http://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/developerguide/DynamoDBLo
 
 ## DynamoDB 의 주요 요소
 
-| RDB | MongoDB |
-| :------------: | :------------:|
-| table | collection |
-| row | document |
-| column | field |
-| pk | object id |
-| relation | embedded linking |
+DynamoDB
+DynamoDB 테이블에 아이템을 저장하는 방법은 다음과 같습니다.
+* Item: 저장할 아이템을 정의합니다.  
+각 속성의 자료형을 구분해줘야 합니다. 아이템이 있으면 내용을 업데이트하고, 없으면 새로 생성합니다.
+  - S, SS: 문자열, 문자열 배열(String Set)입니다.
+  - N, NS: 숫자, 숫자 배열(Number Set)입니다. 단, JavaScript 상에서는 문자열 형태로 값을 설정해야 합니다.
+  - B, BS: 바이너리, 바이너리 배열(Binary Set)입니다. Buffer 형태로 설정합니다.
+* TableName: 아이템을 저장할 테이블 이름을 설정 합니다.
 
 ## 기본적인 동작
 
@@ -29,7 +30,7 @@ http://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/developerguide/DynamoDBLo
 db.createCollection("mydata",( {capped: true, size:100000}))
 ~~~
 **capped:**  
-    - capped를 true로하면 size를 정한만큼만 공간을 사용 한다.     
+    - capped를 true로하면 size를 정한만큼만 공간을 사용 한다.  
         (할당된 공간을 전부 사용했을시에는 처음썻던 데이터에 덮어쓰는 방식으로 기록 한다.)
   
 **non capped:**

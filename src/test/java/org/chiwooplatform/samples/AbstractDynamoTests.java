@@ -1,7 +1,9 @@
 package org.chiwooplatform.samples;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -23,18 +25,27 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig.Table
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootConfiguration
-// @ImportAutoConfiguration(classes = { MongoAutoConfiguration.class,
-// MongoDataAutoConfiguration.class, MongoRepositoriesAutoConfiguration.class })
-public class AbstractDynamoTests {
-	@Bean
-	public ObjectMapper objectMapperBuilder() {
-		Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
-		builder.serializationInclusion(JsonInclude.Include.NON_NULL);
-		builder.indentOutput(true);
-		builder.failOnUnknownProperties(false);
-		return builder.build();
+@SpringBootTest(classes = { AbstractDynamoTests.class,
+		AbstractDynamoTests.DynamoConfiguration.class })
+public abstract class AbstractDynamoTests<T> {
+
+	abstract protected T model();
+
+	@Autowired
+	protected ObjectMapper objectMapper;
+
+	protected void printJson(T model) {
+		try {
+			objectMapper.writeValue(System.out, model);
+		}
+		catch (Exception e) {
+			log.error(e.getMessage());
+		}
 	}
 
 	@EnableDynamoDBRepositories(basePackages = "org.chiwooplatform.samples.dam.dynamo")
@@ -52,6 +63,15 @@ public class AbstractDynamoTests {
 
 		@Value("${amazon.aws.region:secretkey}")
 		private String amazonAWSRegion;
+
+		@Bean
+		public ObjectMapper objectMapperBuilder() {
+			Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
+			builder.serializationInclusion(JsonInclude.Include.NON_NULL);
+			builder.indentOutput(true);
+			builder.failOnUnknownProperties(false);
+			return builder.build();
+		}
 
 		@Bean
 		public AmazonDynamoDB amazonLocalDynamoDB() {

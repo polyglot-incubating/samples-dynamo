@@ -33,7 +33,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
 import lombok.Data;
 
 @Data
-@DynamoDBTable(tableName = "user")
+@DynamoDBTable(tableName = "User")
 public class User {
 
 	private String id;
