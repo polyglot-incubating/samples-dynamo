@@ -34,12 +34,23 @@ import lombok.extern.slf4j.Slf4j;
 		AbstractDynamoTests.DynamoConfiguration.class })
 public abstract class AbstractDynamoTests<T> {
 
-	abstract protected T model();
+	@Autowired
+	private ObjectMapper objectMapper;
 
 	@Autowired
-	protected ObjectMapper objectMapper;
+	private AmazonDynamoDB amazonDynamoDB;
 
-	protected void printJson(T model) {
+	abstract protected T model();
+
+	protected AmazonDynamoDB dynamoDB() {
+		return this.amazonDynamoDB;
+	}
+
+	protected ObjectMapper objectMapper() {
+		return this.objectMapper;
+	}
+
+	protected void printJson(Object model) {
 		try {
 			objectMapper.writeValue(System.out, model);
 		}
@@ -71,16 +82,6 @@ public abstract class AbstractDynamoTests<T> {
 			builder.indentOutput(true);
 			builder.failOnUnknownProperties(false);
 			return builder.build();
-		}
-
-		@Bean
-		public AmazonDynamoDB amazonLocalDynamoDB() {
-			AmazonDynamoDBClientBuilder builder = AmazonDynamoDBClientBuilder.standard();
-			builder.withCredentials(new AWSStaticCredentialsProvider(awsCredentials()));
-			builder.setEndpointConfiguration(
-					new EndpointConfiguration(amazonDynamoDBEndpoint, amazonAWSRegion));
-			final AmazonDynamoDB amazonDynamoDB = builder.build();
-			return amazonDynamoDB;
 		}
 
 		@Bean
