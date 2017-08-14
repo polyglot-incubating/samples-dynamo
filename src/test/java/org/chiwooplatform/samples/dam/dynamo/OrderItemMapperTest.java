@@ -33,11 +33,11 @@ import lombok.extern.slf4j.Slf4j;
 		"default"
 		// xxx
 })
-@Import(OrderItemMapperTest.TemplateConfiguration.class)
+@Import(OrderItemMapperTest.Config.class)
 public class OrderItemMapperTest extends AbstractDynamoTests<OrderItem> {
 
 	@Configuration
-	static class TemplateConfiguration {
+	static class Config {
 		/*
 		 * @Bean public String hello() { return new String("HELLO"); }
 		 */
@@ -66,7 +66,7 @@ public class OrderItemMapperTest extends AbstractDynamoTests<OrderItem> {
 	}
 
 	@Test
-	public void u1000_createTableIfNotExists() throws Exception {
+	public void ut1000_createTableIfNotExists() throws Exception {
 		log.info("createTableIfNotExists");
 		final DeleteTableRequest deleteTableRequest = new DeleteTableRequest(
 				OrderItem.TABLE_NAME);
@@ -79,7 +79,7 @@ public class OrderItemMapperTest extends AbstractDynamoTests<OrderItem> {
 	}
 
 	@Test
-	public void u1001_lisetTable() throws Exception {
+	public void ut1001_lisetTable() throws Exception {
 		dynamoDB().listTables().getTableNames()
 				.forEach((v) -> log.info("tableName: {}", v));
 	}

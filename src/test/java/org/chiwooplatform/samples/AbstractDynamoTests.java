@@ -1,5 +1,7 @@
 package org.chiwooplatform.samples;
 
+import java.io.StringWriter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringBootConfiguration;
@@ -11,7 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.StringUtils;
 
 import org.junit.runner.RunWith;
-import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
@@ -40,10 +41,17 @@ public abstract class AbstractDynamoTests<T> {
 	@Autowired
 	private AmazonDynamoDB amazonDynamoDB;
 
+	@Autowired
+	private DynamoDBMapper dynamoDBMapper;
+
 	abstract protected T model();
 
 	protected AmazonDynamoDB dynamoDB() {
 		return this.amazonDynamoDB;
+	}
+
+	protected DynamoDBMapper mapper() {
+		return this.dynamoDBMapper;
 	}
 
 	protected ObjectMapper objectMapper() {
@@ -59,7 +67,18 @@ public abstract class AbstractDynamoTests<T> {
 		}
 	}
 
-	@EnableDynamoDBRepositories(basePackages = "org.chiwooplatform.samples.dam.dynamo")
+	protected String toJson(Object model) {
+		try {
+			StringWriter sw = new StringWriter();
+			objectMapper.writeValue(sw, model);
+			return sw.toString();
+		}
+		catch (Exception e) {
+			log.error(e.getMessage());
+			return null;
+		}
+	}
+
 	@Configuration
 	public class DynamoConfiguration {
 
