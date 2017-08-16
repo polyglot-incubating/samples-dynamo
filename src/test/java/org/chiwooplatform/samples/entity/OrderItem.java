@@ -51,15 +51,15 @@ public class OrderItem {
 		this.options = builder.options;
 	}
 
+	public static Builder builder() {
+		return new Builder();
+	}
+
 	public static final class Builder {
 		private String orderId;
 		private String itemId;
 		private Integer order;
 		private Set<String> options;
-
-		public static Builder create() {
-			return new Builder();
-		}
 
 		public Builder orderId(String orderId) {
 			this.orderId = orderId;

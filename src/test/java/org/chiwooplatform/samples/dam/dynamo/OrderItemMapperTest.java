@@ -53,7 +53,7 @@ public class OrderItemMapperTest extends AbstractDynamoTests<OrderItem> {
 	}
 
 	protected OrderItem model(String id) {
-		OrderItem model = OrderItem.Builder.create().orderId(id).itemId("NOTE-ACC-10022")
+		OrderItem model = OrderItem.builder().orderId(id).itemId("NOTE-ACC-10022")
 				.order(1).options("YELLOW").build();
 		return model;
 	}
@@ -115,20 +115,19 @@ public class OrderItemMapperTest extends AbstractDynamoTests<OrderItem> {
 		try {
 			OrderItem model = model();
 			final String orderId = model.getOrderId();
-			mapper.save(OrderItem.Builder.create().orderId(orderId)
-					.itemId("NOTE-ACC-2011").order(2).options("BLACK").build());
-			mapper.save(OrderItem.Builder.create().orderId(orderId)
-					.itemId("NOTE-CBC-10022").order(1).options("BLUE").build());
-			mapper.save(
-					OrderItem.Builder.create().orderId(orderId).itemId("NOTE-CBC-2003")
-							.order(2).options("YELLOW", "BLUE", "BLACK").build());
-			mapper.save(OrderItem.Builder.create().orderId(orderId)
-					.itemId("NOTE-KBC-10022").order(1).options("BLACK").build());
-			mapper.save(OrderItem.Builder.create().orderId(orderId).itemId("KBC-ABA-1001")
+			mapper.save(OrderItem.builder().orderId(orderId).itemId("NOTE-ACC-2011")
+					.order(2).options("BLACK").build());
+			mapper.save(OrderItem.builder().orderId(orderId).itemId("NOTE-CBC-10022")
+					.order(1).options("BLUE").build());
+			mapper.save(OrderItem.builder().orderId(orderId).itemId("NOTE-CBC-2003")
+					.order(2).options("YELLOW", "BLUE", "BLACK").build());
+			mapper.save(OrderItem.builder().orderId(orderId).itemId("NOTE-KBC-10022")
 					.order(1).options("BLACK").build());
-			mapper.save(OrderItem.Builder.create().orderId(orderId).itemId("KBC-ABA-1011")
+			mapper.save(OrderItem.builder().orderId(orderId).itemId("KBC-ABA-1001")
+					.order(1).options("BLACK").build());
+			mapper.save(OrderItem.builder().orderId(orderId).itemId("KBC-ABA-1011")
 					.order(1).options("SILVER").build());
-			mapper.save(OrderItem.Builder.create().orderId(orderId).itemId("KBC-ABA-1031")
+			mapper.save(OrderItem.builder().orderId(orderId).itemId("KBC-ABA-1031")
 					.order(1).options("WHITE").build());
 		}
 		catch (Exception e) {
@@ -142,7 +141,7 @@ public class OrderItemMapperTest extends AbstractDynamoTests<OrderItem> {
 		try {
 
 			DynamoDBQueryExpression<OrderItem> query = new DynamoDBQueryExpression<>();
-			OrderItem orderItem = OrderItem.Builder.create().orderId(id).build();
+			OrderItem orderItem = OrderItem.builder().orderId(id).build();
 			query.withHashKeyValues(orderItem);
 			PaginatedQueryList<OrderItem> result = mapper.query(OrderItem.class, query);
 			printJson(result);
@@ -155,7 +154,7 @@ public class OrderItemMapperTest extends AbstractDynamoTests<OrderItem> {
 	@Test
 	public void ut1005_queryWithLimit() throws Exception {
 		try {
-			OrderItem orderItem = OrderItem.Builder.create().orderId(id).build();
+			OrderItem orderItem = OrderItem.builder().orderId(id).build();
 			DynamoDBQueryExpression<OrderItem> query = new DynamoDBQueryExpression<>();
 			query.withHashKeyValues(orderItem).withLimit(5);
 			QueryResultPage<OrderItem> queryResult = mapper.queryPage(OrderItem.class,
@@ -173,7 +172,7 @@ public class OrderItemMapperTest extends AbstractDynamoTests<OrderItem> {
 	@Test
 	public void ut1006_queryWithCondition() throws Exception {
 		try {
-			OrderItem orderItem = OrderItem.Builder.create().orderId(id).build();
+			OrderItem orderItem = OrderItem.builder().orderId(id).build();
 			DynamoDBQueryExpression<OrderItem> query = new DynamoDBQueryExpression<>();
 			query.withHashKeyValues(orderItem);
 
